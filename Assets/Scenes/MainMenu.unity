@@ -168,7 +168,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 22078946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4eb0de76a51117428db73617e01fb3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f580871999c9b44ab944311e57fdb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverButton
   targetImage: {fileID: 22078950}
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 398135893}
+      - m_Target: {fileID: 398135895}
         m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 398135895}
+      - m_Target: {fileID: 398135893}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100521336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4eb0de76a51117428db73617e01fb3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f580871999c9b44ab944311e57fdb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverButton
   targetImage: {fileID: 100521339}
@@ -555,11 +555,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 398135892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e99b47743fefc24489f367d6ec86467, type: 3}
+  m_Script: {fileID: 11500000, guid: d0f4b5dcf2cdb9a4c9bd3f3cc7739bd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsMenu
-  settingsWindow: {fileID: 1786476591}
-  volumeSlider: {fileID: 0}
+  nextSceneName: Map1
 --- !u!4 &398135894
 Transform:
   m_ObjectHideFlags: 0
@@ -584,10 +583,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 398135892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b6a9ce810e4b224db5ee9cc296bc786, type: 3}
+  m_Script: {fileID: 11500000, guid: db8caee01105d1a4ebe60dde31703123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
-  nextSceneName: Map1
+  settingsWindow: {fileID: 1786476591}
+  volumeSlider: {fileID: 0}
 --- !u!1 &412636452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1031,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 398135893}
+      - m_Target: {fileID: 398135895}
         m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777321488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4eb0de76a51117428db73617e01fb3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f580871999c9b44ab944311e57fdb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverButton
   targetImage: {fileID: 777321491}
@@ -1648,7 +1648,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514159219}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 398135893}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1514159219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1696,7 +1708,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514159216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4eb0de76a51117428db73617e01fb3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f580871999c9b44ab944311e57fdb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverButton
   targetImage: {fileID: 1514159219}
