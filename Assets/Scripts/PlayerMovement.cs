@@ -8,11 +8,26 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private Animator animator; // 1. Variabel Animator harus ada
 
+    // Inventory State
+    private bool hasKey = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         // 2. Mengambil komponen Animator yang ada di Player
         animator = GetComponent<Animator>(); 
+    }
+
+    // --- Inventory Methods ---
+    public void PickupKey()
+    {
+        hasKey = true;
+        Debug.Log("Player picked up the Key!");
+    }
+
+    public bool HasKey()
+    {
+        return hasKey;
     }
 
     void Update()
