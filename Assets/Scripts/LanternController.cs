@@ -15,9 +15,26 @@ public class LanternController : MonoBehaviour
     [Tooltip("Jumlah minyak berkurang per detik. GDD: 1% tiap 3 detik = ~0.33")]
     public float depletionRate = 0.33f; 
     
-    [Header("Visual Cahaya")]
+    [Header("Visual Cahaya (Radius)")]
     public float maxOuterRadius = 6f; // Radius saat minyak 100%
     public float minOuterRadius = 1.5f; // Radius saat minyak hampir habis
+
+    [Header("Visual Cahaya (Atmosfer)")]
+    [Tooltip("Warna api sehat (Oranye/Kuning)")]
+    public Color fullOilColor = new Color(1f, 0.7f, 0.4f); 
+    [Tooltip("Warna api mau mati (Merah/Gelap)")]
+    public Color lowOilColor = new Color(0.4f, 0.1f, 0.1f);
+    
+    [Tooltip("Intensitas cahaya maksimal")]
+    public float maxIntensity = 1.5f;
+    [Tooltip("Intensitas saat minyak kritis")]
+    public float minIntensity = 0.5f;
+
+    [Header("Efek Kedipan (Flicker)")]
+    [Tooltip("Seberapa kuat cahaya bergetar (0 = stabil, 0.5 = badai)")]
+    public float flickerStrength = 0.2f; 
+    [Tooltip("Kecepatan getaran api")]
+    public float flickerSpeed = 8f;
     
     // Private variables
     private float currentOil;
@@ -72,12 +89,21 @@ public class LanternController : MonoBehaviour
             // Hitung persentase sisa minyak (0.0 sampai 1.0)
             float oilPercentage = currentOil / maxOil;
             
-            // Ubah radius cahaya berdasarkan persentase minyak
-            // Mathf.Lerp akan transisi halus dari minRadius ke maxRadius
+            // 1. Radius: Transisi halus dari min ke max
             lanternLight.pointLightOuterRadius = Mathf.Lerp(minOuterRadius, maxOuterRadius, oilPercentage);
-            
-            // Opsional: Kecilkan inner radius juga agar konsisten
             lanternLight.pointLightInnerRadius = lanternLight.pointLightOuterRadius * 0.1f;
+
+            // 2. Warna: Transisi dari Merah Gelap ke Kuning Hangat
+            lanternLight.color = Color.Lerp(lowOilColor, fullOilColor, oilPercentage);
+
+            // 3. Intensitas & Flicker: Membuat efek api hidup
+            float baseIntensity = Mathf.Lerp(minIntensity, maxIntensity, oilPercentage);
+            
+            // Perlin Noise memberikan efek getaran yang lebih natural daripada Random
+            float flicker = (Mathf.PerlinNoise(Time.time * flickerSpeed, 0f) - 0.5f) * flickerStrength;
+            
+            // Pastikan intensitas tidak minus
+            lanternLight.intensity = Mathf.Clamp(baseIntensity + flicker, 0f, 10f);
         }
     }
 
