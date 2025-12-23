@@ -45,6 +45,7 @@ public class KeyUI : MonoBehaviour
         // Membuat GameObject baru sebagai child dari keyImage
         GameObject go = new GameObject("X_Overlay");
         go.transform.SetParent(keyImage.transform);
+        go.layer = keyImage.gameObject.layer; // Pastikan layer sama dengan parent
         
         // Reset posisi dan ukuran agar memenuhi icon kunci
         RectTransform rt = go.AddComponent<RectTransform>();
@@ -52,6 +53,7 @@ public class KeyUI : MonoBehaviour
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;
         rt.anchoredPosition = Vector2.zero;
+        rt.localScale = Vector3.one; // Reset scale
 
         // Tambah teks "X"
         Text xText = go.AddComponent<Text>();
@@ -60,6 +62,11 @@ public class KeyUI : MonoBehaviour
         xText.fontSize = 40;
         xText.color = Color.red;
         xText.alignment = TextAnchor.MiddleCenter;
+        
+        // Agar terlihat meski ukuran container kecil (35x35)
+        xText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        xText.verticalOverflow = VerticalWrapMode.Overflow;
+        xText.raycastTarget = false;
         
         // Simpan referensi
         xOverlay = go;
