@@ -15,6 +15,15 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float hoverScale = 1.05f;
     [SerializeField] private float clickScale = 0.95f;
 
+    // --- [BARU] BAGIAN AUDIO ---
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip hoverSound; // Tarik file suara hover ke sini
+    [SerializeField] private AudioClip clickSound; // Tarik file suara klik ke sini (opsional)
+    [Range(0f, 1f)] [SerializeField] private float soundVolume = 1f;
+
+    private AudioSource audioSource;
+    // ---------------------------
+
     private Vector3 originalScale;
     private Coroutine currentCoroutine;
 
@@ -29,6 +38,16 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // Pastikan sprite awal sesuai
         if (targetImage != null && normalSprite != null)
             targetImage.sprite = normalSprite;
+
+        // --- [BARU] SETUP AUDIO SOURCE OTOMATIS ---
+        // Cek apakah tombol sudah punya AudioSource? Kalau belum, kita buatkan.
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false; // Supaya tidak bunyi pas game mulai
+        // ------------------------------------------
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -37,8 +56,15 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (targetImage != null && hoverSprite != null)
             targetImage.sprite = hoverSprite;
 
-        // Animasi transisi scale membesar sedikit (smooth)
+        // Animasi transisi scale
         StartScaleAnimation(originalScale * hoverScale);
+
+        // --- [BARU] MAINKAN SUARA HOVER ---
+        if (hoverSound != null)
+        {
+            // PlayOneShot memungkinkan suara tumpang tindih (tidak saling memotong)
+            audioSource.PlayOneShot(hoverSound, soundVolume);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -53,13 +79,19 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Animasi saat diklik (mengecil sedikit)
+        // Animasi saat diklik
         StartScaleAnimation(originalScale * clickScale);
+
+        // --- [BARU] MAINKAN SUARA KLIK ---
+        if (clickSound != null)
+        {
+            audioSource.PlayOneShot(clickSound, soundVolume);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        // Saat dilepas, kembali ke kondisi hover (karena cursor masih di atas button)
+        // Saat dilepas, kembali ke kondisi hover
         StartScaleAnimation(originalScale * hoverScale);
     }
 
@@ -80,7 +112,6 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             timer += Time.deltaTime;
             float t = timer / transitionDuration;
-            // Menggunakan SmoothStep untuk transisi yang lebih natural
             t = t * t * (3f - 2f * t); 
             
             transform.localScale = Vector3.Lerp(start, target, t);

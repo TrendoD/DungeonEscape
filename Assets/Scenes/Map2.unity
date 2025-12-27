@@ -11571,6 +11571,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 0be06b81aeba05e46b641020d7e9d244, type: 3}
     - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: stepInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
       propertyPath: footstepSound
       value: 
       objectReference: {fileID: 8300000, guid: e869e83d21218e34bb37c8dbadf85558, type: 3}
