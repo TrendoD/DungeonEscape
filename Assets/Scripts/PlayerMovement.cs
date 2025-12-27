@@ -2,11 +2,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
+
+    // --- AUDIO SETTINGS (DIUBAH) ---
+    [Header("Audio Settings")]
+    public AudioClip stepSound;       // Masukkan file suara langkah (4 detik) di sini
     
+    private AudioSource audioSource;
+    // -----------------------------
+
     private Rigidbody2D rb;
     private Vector2 movement;
-    private Animator animator; // 1. Variabel Animator harus ada
+    private Animator animator;
 
     // Inventory State
     private bool hasKey = false;
@@ -14,8 +22,16 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // 2. Mengambil komponen Animator yang ada di Player
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
+
+        // --- SETUP AUDIO ---
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false; 
+        audioSource.volume = 0.5f; 
+        
+        // PENTING: Karena filenya panjang, kita set Loop jadi true
+        // Agar kalau jalan lebih dari 4 detik, suaranya nyambung terus
+        audioSource.loop = true; 
     }
 
     // --- Inventory Methods ---
@@ -32,25 +48,48 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Input keyboard
+        // 1. Input keyboard
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        // 3. INI KUNCINYA: Mengirim data kecepatan ke Parameter "Speed" di Animator
+        // 2. Animasi
         if (animator != null)
         {
             animator.SetFloat("Speed", movement.sqrMagnitude);
         }
 
-        // Membalik arah hadap (Flip)
+        // 3. Flip Character
         if (movement.x > 0) transform.localScale = new Vector3(1, 1, 1);
         else if (movement.x < 0) transform.localScale = new Vector3(-1, 1, 1);
+
+        // 4. --- LOGIKA AUDIO BARU (Play & Stop) ---
+        HandleFootsteps();
+    }
+
+    void HandleFootsteps()
+    {
+        // Cek apakah ada input gerak?
+        if (movement.sqrMagnitude > 0.1f)
+        {
+            // KONDISI: Karakter Jalan, tapi suara BELUM bunyi
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = stepSound;
+                audioSource.Play(); // Mulai putar lagu
+            }
+        }
+        else
+        {
+            // KONDISI: Karakter Diam, tapi suara MASIH bunyi
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop(); // Paksa berhenti detik itu juga!
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        // Menggerakkan fisik karakter
-        // Gunakan 'velocity' jika 'linearVelocity' error (tergantung versi Unity 6)
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
 }
