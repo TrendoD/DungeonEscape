@@ -11638,6 +11638,7 @@ MonoBehaviour:
   maxIntensity: 1.5
   pulseSpeed: 3
   pickupSound: {fileID: 0}
+  soundVolume: 0.7
 --- !u!61 &319379560
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11972,6 +11973,7 @@ MonoBehaviour:
   maxIntensity: 1.5
   pulseSpeed: 3
   pickupSound: {fileID: 0}
+  soundVolume: 0.7
 --- !u!61 &482225960
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12765,6 +12767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorExit
   nextLevelName: Map3
+  openSound: {fileID: 8300000, guid: a73e36abb36b992408fa6c77d1c6ba1a, type: 3}
+  lockedSound: {fileID: 0}
 --- !u!212 &1124371052
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16213,6 +16217,7 @@ MonoBehaviour:
   maxIntensity: 1.5
   pulseSpeed: 3
   pickupSound: {fileID: 0}
+  soundVolume: 0.7
 --- !u!61 &1465101827
 BoxCollider2D:
   m_ObjectHideFlags: 0

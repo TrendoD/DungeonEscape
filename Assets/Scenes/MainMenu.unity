@@ -177,6 +177,9 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
+  hoverSound: {fileID: 0}
+  clickSound: {fileID: 0}
+  soundVolume: 1
 --- !u!114 &22078949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +531,9 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
+  soundVolume: 1
 --- !u!1 &398135892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1105,9 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
+  soundVolume: 1
 --- !u!1 &845439906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,6 +1726,9 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
+  soundVolume: 1
 --- !u!1 &1786476591
 GameObject:
   m_ObjectHideFlags: 0

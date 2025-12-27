@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal; // Wajib untuk Light2D
+using UnityEngine.Rendering.Universal; // Wajib ada untuk fitur Light 2D
 
 public class OilPickup : MonoBehaviour
 {
@@ -13,15 +13,16 @@ public class OilPickup : MonoBehaviour
     [Tooltip("Jarak naik turun")]
     public float floatHeight = 0.15f;
 
-    [Header("Efek Cahaya (Wajib pasang Light 2D)")]
+    [Header("Efek Cahaya")]
     public Light2D itemLight;
     public float minIntensity = 0.5f;
     public float maxIntensity = 1.5f;
     public float pulseSpeed = 3f;
 
-    [Header("Audio (Opsional)")]
+    [Header("Audio")]
     [Tooltip("Masukkan AudioClip suara ambil barang disini")]
     public AudioClip pickupSound;
+    [Range(0f, 1f)] public float soundVolume = 0.7f; // Pengatur volume suara
 
     private Vector3 startPos;
 
@@ -30,10 +31,11 @@ public class OilPickup : MonoBehaviour
         // Simpan posisi awal agar naiknya relatif dari sini
         startPos = transform.position;
 
-        // Cari Light2D otomatis jika belum di-assign
+        // Cari Light2D otomatis jika belum di-assign di Inspector
         if (itemLight == null)
         {
             itemLight = GetComponent<Light2D>();
+            // Cek juga di anak objek (child) kalau tidak ketemu di induk
             if (itemLight == null) itemLight = GetComponentInChildren<Light2D>();
         }
     }
@@ -66,10 +68,10 @@ public class OilPickup : MonoBehaviour
                 // 3. Isi minyak
                 lantern.AddOil(oilAmount);
 
-                // 4. Mainkan suara jika ada (menggunakan PlayClipAtPoint agar suara tidak putus saat object hancur)
+                // 4. Mainkan suara (menggunakan PlayClipAtPoint agar suara tidak putus saat object hancur)
                 if (pickupSound != null)
                 {
-                    AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, soundVolume);
                 }
 
                 // 5. Hancurkan object Jerigen ini
