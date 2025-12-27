@@ -50,7 +50,7 @@ public class EnemyAI : MonoBehaviour
         stepSource.playOnAwake = false;
         stepSource.spatialBlend = 1f; // 3D Sound (Makin jauh makin pelan)
         stepSource.rolloffMode = AudioRolloffMode.Linear;
-        stepSource.maxDistance = 10f; // Jarak terdengar
+        stepSource.maxDistance = 15f; // Jarak terdengar
         stepSource.volume = 0.6f;
 
         // 2. Setup AudioSource untuk Suara Kejar (Looping)
@@ -114,11 +114,6 @@ public class EnemyAI : MonoBehaviour
             if (stepTimer <= 0)
             {
                 if (footstepSound != null) stepSource.PlayOneShot(footstepSound);
-                
-                // Gunakan interval berbeda: Ngebut = langkah cepat, Jalan = langkah santai
-                if (isChasingState)
-                    stepTimer = stepInterval * 0.6f; // Langkah lebih cepat pas ngejar
-                else
                     stepTimer = stepInterval; // Langkah normal pas patroli
             }
         }
