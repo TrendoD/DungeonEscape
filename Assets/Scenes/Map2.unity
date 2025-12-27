@@ -11374,6 +11374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   moveSpeed: 5
+  stepSound: {fileID: 8300000, guid: b2c74f5f102e4bc4bb9b84fe6e386870, type: 3}
 --- !u!95 &116691256
 Animator:
   serializedVersion: 7
@@ -11565,6 +11566,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: chaseSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0be06b81aeba05e46b641020d7e9d244, type: 3}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: footstepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e869e83d21218e34bb37c8dbadf85558, type: 3}
     - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
