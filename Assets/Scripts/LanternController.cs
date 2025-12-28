@@ -123,7 +123,12 @@ public class LanternController : MonoBehaviour
     void OnOilDepleted()
     {
         Debug.Log("GAME OVER: Minyak Lentera Habis! (Gelap Total)");
-        // TODO: Panggil fungsi Game Over di script GameManager nanti
+        
+        // Panggil GameManager untuk trigger Game Over dengan fade animation
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TriggerGameOver("Minyak Lentera Habis");
+        }
     }
 
     // Fungsi untuk menambah minyak (dipakai saat ambil item Jerigen)

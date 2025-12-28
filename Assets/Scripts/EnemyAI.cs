@@ -192,4 +192,56 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, chaseDistance);
     }
+
+    // ==================== GAME OVER TRIGGER ====================
+
+    /// <summary>
+    /// Deteksi tabrakan dengan Player - trigger Game Over
+    /// </summary>
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Cek apakah player sedang bersembunyi
+            PlayerHiding playerHiding = collision.gameObject.GetComponent<PlayerHiding>();
+            if (playerHiding != null && playerHiding.IsHiding)
+            {
+                // Player bersembunyi, jangan trigger game over
+                return;
+            }
+
+            // Player tertangkap monster!
+            Debug.Log("GAME OVER: Player tertangkap oleh monster!");
+            
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.TriggerGameOver("Tertangkap Monster");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Alternatif: Jika menggunakan Trigger Collider
+    /// </summary>
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Cek apakah player sedang bersembunyi
+            PlayerHiding playerHiding = other.GetComponent<PlayerHiding>();
+            if (playerHiding != null && playerHiding.IsHiding)
+            {
+                // Player bersembunyi, jangan trigger game over
+                return;
+            }
+
+            // Player tertangkap monster!
+            Debug.Log("GAME OVER: Player tertangkap oleh monster!");
+            
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.TriggerGameOver("Tertangkap Monster");
+            }
+        }
+    }
 }
