@@ -20972,7 +20972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660aee487cb82c744b92595da3190e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorExit
-  nextLevelName: MainMenu
+  nextLevelName: Winner
   openSound: {fileID: 0}
   lockedSound: {fileID: 0}
 --- !u!212 &432705969
