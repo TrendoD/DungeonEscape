@@ -38,6 +38,9 @@ public class LanternController : MonoBehaviour
     
     // Private variables
     private float currentOil;
+    
+    // Hiding mode - pengurangan cahaya saat bersembunyi
+    private float lightMultiplier = 1f;
 
     void Start()
     {
@@ -89,8 +92,8 @@ public class LanternController : MonoBehaviour
             // Hitung persentase sisa minyak (0.0 sampai 1.0)
             float oilPercentage = currentOil / maxOil;
             
-            // 1. Radius: Transisi halus dari min ke max
-            lanternLight.pointLightOuterRadius = Mathf.Lerp(minOuterRadius, maxOuterRadius, oilPercentage);
+            // 1. Radius: Transisi halus dari min ke max, terapkan multiplier untuk hiding
+            lanternLight.pointLightOuterRadius = Mathf.Lerp(minOuterRadius, maxOuterRadius, oilPercentage) * lightMultiplier;
             lanternLight.pointLightInnerRadius = lanternLight.pointLightOuterRadius * 0.1f;
 
             // 2. Warna: Transisi dari Merah Gelap ke Kuning Hangat
@@ -102,9 +105,19 @@ public class LanternController : MonoBehaviour
             // Perlin Noise memberikan efek getaran yang lebih natural daripada Random
             float flicker = (Mathf.PerlinNoise(Time.time * flickerSpeed, 0f) - 0.5f) * flickerStrength;
             
-            // Pastikan intensitas tidak minus
-            lanternLight.intensity = Mathf.Clamp(baseIntensity + flicker, 0f, 10f);
+            // Pastikan intensitas tidak minus, terapkan multiplier untuk hiding mode
+            lanternLight.intensity = Mathf.Clamp((baseIntensity + flicker) * lightMultiplier, 0f, 10f);
         }
+    }
+
+    /// <summary>
+    /// Set mode bersembunyi - mengurangi cahaya
+    /// </summary>
+    public void SetHidingMode(bool isHiding, float reductionMultiplier)
+    {
+        lightMultiplier = isHiding ? reductionMultiplier : 1f;
+        UpdateLightVisuals();
+        Debug.Log($"Lantern hiding mode: {isHiding}, multiplier: {lightMultiplier}");
     }
 
     void OnOilDepleted()

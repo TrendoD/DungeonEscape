@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     // Inventory State
     private bool hasKey = false;
 
+    // Hiding State - untuk disable movement saat bersembunyi
+    private bool canMove = true;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,8 +49,31 @@ public class PlayerMovement : MonoBehaviour
         return hasKey;
     }
 
+    // --- Hiding Methods ---
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+        if (!canMove)
+        {
+            movement = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
+    }
+
     void Update()
     {
+        // Jika tidak bisa bergerak (sedang bersembunyi), skip semua input
+        if (!canMove)
+        {
+            movement = Vector2.zero;
+            HandleFootsteps();
+            return;
+        }
+
         // 1. Input keyboard
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");

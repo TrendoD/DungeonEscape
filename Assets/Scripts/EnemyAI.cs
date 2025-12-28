@@ -71,6 +71,20 @@ public class EnemyAI : MonoBehaviour
 
         if (playerTarget == null) return;
 
+        // Cek apakah player sedang bersembunyi - jika iya, hanya patrol
+        PlayerHiding playerHiding = playerTarget.GetComponent<PlayerHiding>();
+        if (playerHiding != null && playerHiding.IsHiding)
+        {
+            // Player bersembunyi, kembali ke patrol mode
+            if (isChasingState)
+            {
+                isChasingState = false;
+                if (chaseSound != null) chaseSource.Stop();
+            }
+            Patrol();
+            return;
+        }
+
         float distanceToPlayer = Vector2.Distance(transform.position, playerTarget.position);
 
         if (distanceToPlayer < chaseDistance)
