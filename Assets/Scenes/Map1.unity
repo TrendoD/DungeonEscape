@@ -9408,7 +9408,7 @@ MonoBehaviour:
   minIntensity: 0.5
   maxIntensity: 1.5
   pulseSpeed: 3
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 99e4a886fab84134e9f73526d50c69a3, type: 3}
   soundVolume: 0.7
 --- !u!61 &94521533
 BoxCollider2D:
@@ -9704,7 +9704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   moveSpeed: 5
-  stepSound: {fileID: 0}
+  stepSound: {fileID: 8300000, guid: b2c74f5f102e4bc4bb9b84fe6e386870, type: 3}
 --- !u!95 &116691256
 Animator:
   serializedVersion: 7
@@ -9989,7 +9989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorExit
   nextLevelName: Map2
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 2bad9dc9c1c0bdf46bb6c9ae51a91907, type: 3}
   lockedSound: {fileID: 0}
 --- !u!212 &217346971
 SpriteRenderer:
@@ -11543,7 +11543,7 @@ MonoBehaviour:
   minIntensity: 0.5
   maxIntensity: 1.5
   pulseSpeed: 3
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 99e4a886fab84134e9f73526d50c69a3, type: 3}
   soundVolume: 0.7
 --- !u!61 &865758991
 BoxCollider2D:
@@ -15219,7 +15219,7 @@ MonoBehaviour:
   minIntensity: 0.5
   maxIntensity: 1.5
   pulseSpeed: 3
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 99e4a886fab84134e9f73526d50c69a3, type: 3}
   soundVolume: 0.7
 --- !u!61 &1348760438
 BoxCollider2D:
@@ -25329,6 +25329,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: chaseSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0be06b81aeba05e46b641020d7e9d244, type: 3}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: stepInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
+      propertyPath: footstepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e869e83d21218e34bb37c8dbadf85558, type: 3}
     - target: {fileID: 7789616885491916161, guid: 16f7b923b2a08794393358fa7a13c787, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
