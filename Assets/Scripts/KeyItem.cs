@@ -8,6 +8,13 @@ public class KeyItem : MonoBehaviour
     [Tooltip("Jarak naik turun")]
     public float floatHeight = 0.15f;
 
+    // --- [BARU] VARIABLES AUDIO ---
+    [Header("Audio Settings")]
+    [Tooltip("Tarik file suara kunci (ting/clink) ke sini")]
+    public AudioClip pickupSound; 
+    [Range(0f, 1f)] public float soundVolume = 0.7f; // Slider volume (0 sampai 1)
+    // -----------------------------
+
     private Vector3 startPos;
 
     void Start()
@@ -32,8 +39,13 @@ public class KeyItem : MonoBehaviour
             {
                 player.PickupKey();
                 
-                // Play sound effect here if available
-                // AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+                // --- [BARU] MAINKAN SUARA ---
+                if (pickupSound != null)
+                {
+                    // Kita pakai PlayClipAtPoint karena object kuncinya langsung di-Destroy.
+                    // Fungsi ini membuat "Speaker Sementara" di posisi kunci yang tetap bunyi walaupun kuncinya hilang.
+                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, soundVolume);
+                }
 
                 // Destroy the key object
                 Destroy(gameObject);

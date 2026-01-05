@@ -9333,8 +9333,8 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
-  hoverSound: {fileID: 0}
-  clickSound: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
   soundVolume: 1
 --- !u!1 &94521531
 GameObject:
@@ -10950,8 +10950,8 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
-  hoverSound: {fileID: 0}
-  clickSound: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
   soundVolume: 1
 --- !u!1 &511685345
 GameObject:
@@ -11060,6 +11060,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyItem
   floatSpeed: 2
   floatHeight: 0.15
+  pickupSound: {fileID: 8300000, guid: 9100a192946df47468e164287fa0fb8a, type: 3}
+  soundVolume: 0.7
 --- !u!61 &511685349
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16392,8 +16394,8 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
-  hoverSound: {fileID: 0}
-  clickSound: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
   soundVolume: 1
 --- !u!1 &1643242099
 GameObject:
@@ -24931,8 +24933,8 @@ MonoBehaviour:
   transitionDuration: 0.1
   hoverScale: 1.05
   clickScale: 0.95
-  hoverSound: {fileID: 0}
-  clickSound: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 4ad999ced1ceaaa46b148a740006425c, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cb26391b08173f428b84de87d064af7, type: 3}
   soundVolume: 1
 --- !u!1 &1978111127
 GameObject:
