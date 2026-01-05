@@ -6,7 +6,7 @@ using System.Collections;
 /// <summary>
 /// Script untuk scene Winner.
 /// Menampilkan fade out dari hitam untuk memunculkan tampilan kemenangan.
-/// Menangani tombol Back to Main Menu dan Quit.
+/// Menangani tombol Back to Main Menu, Quit, dan Audio Kemenangan.
 /// </summary>
 public class WinnerUI : MonoBehaviour
 {
@@ -31,8 +31,33 @@ public class WinnerUI : MonoBehaviour
     [Tooltip("Nama scene Main Menu")]
     public string mainMenuSceneName = "MainMenu";
 
+    // --- [BARU] AUDIO SETTINGS ---
+    [Header("Audio Settings")]
+    [Tooltip("Masukkan suara Menang / Victory Music disini")]
+    public AudioClip winnerSound;
+    [Range(0f, 1f)] public float soundVolume = 1f;
+
+    private AudioSource audioSource;
+    // -----------------------------
+
     void Start()
     {
+        // --- [BARU] SETUP AUDIO OTOMATIS ---
+        // Pasang speaker (AudioSource) jika belum ada
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+
+        // MAINKAN SUARA MENANG
+        if (winnerSound != null)
+        {
+            audioSource.PlayOneShot(winnerSound, soundVolume);
+        }
+        // -----------------------------------
+
         // Auto-find fade overlay jika belum di-assign
         if (fadeOverlay == null)
         {

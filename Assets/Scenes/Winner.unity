@@ -337,6 +337,8 @@ MonoBehaviour:
   backToMenuButton: {fileID: 0}
   quitButton: {fileID: 0}
   mainMenuSceneName: MainMenu
+  winnerSound: {fileID: 8300000, guid: f4c88a9e06b5dc34481cdde8818f5e69, type: 3}
+  soundVolume: 1
 --- !u!4 &328628364
 Transform:
   m_ObjectHideFlags: 0
