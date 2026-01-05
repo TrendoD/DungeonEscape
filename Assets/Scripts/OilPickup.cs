@@ -71,7 +71,10 @@ public class OilPickup : MonoBehaviour
                 // 4. Mainkan suara (menggunakan PlayClipAtPoint agar suara tidak putus saat object hancur)
                 if (pickupSound != null)
                 {
-                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, soundVolume);
+                    float volume = AudioManager.Instance != null 
+                        ? AudioManager.Instance.GetScaledSFXVolume(soundVolume) 
+                        : soundVolume;
+                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, volume);
                 }
 
                 // 5. Hancurkan object Jerigen ini

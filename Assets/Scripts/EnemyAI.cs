@@ -35,6 +35,10 @@ public class EnemyAI : MonoBehaviour
     private AudioSource chaseSource;
     private float stepTimer;
     private bool isChasingState = false;
+    
+    // Base volumes (sebelum dikalikan SFX Volume)
+    private const float BASE_STEP_VOLUME = 0.6f;
+    private const float BASE_CHASE_VOLUME = 0.8f;
 
     private Transform playerTarget;
     private int currentPointIndex;
@@ -62,7 +66,6 @@ public class EnemyAI : MonoBehaviour
         stepSource.spatialBlend = 1f;
         stepSource.rolloffMode = AudioRolloffMode.Linear;
         stepSource.maxDistance = 15f;
-        stepSource.volume = 0.6f;
 
         chaseSource = gameObject.AddComponent<AudioSource>();
         chaseSource.clip = chaseSound;
@@ -71,9 +74,25 @@ public class EnemyAI : MonoBehaviour
         chaseSource.spatialBlend = 1f;
         chaseSource.rolloffMode = AudioRolloffMode.Linear;
         chaseSource.maxDistance = 12f;
-        chaseSource.volume = 0.8f;
+        
+        // Subscribe ke SFX volume changes
+        AudioManager.OnSFXVolumeChanged += UpdateAudioVolumes;
+        UpdateAudioVolumes(AudioManager.Instance != null ? AudioManager.Instance.SFXVolume : 1f);
         
         lastPosition = transform.position;
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.OnSFXVolumeChanged -= UpdateAudioVolumes;
+    }
+
+    private void UpdateAudioVolumes(float sfxVolume)
+    {
+        if (stepSource != null)
+            stepSource.volume = BASE_STEP_VOLUME * sfxVolume;
+        if (chaseSource != null)
+            chaseSource.volume = BASE_CHASE_VOLUME * sfxVolume;
     }
 
     void Update()

@@ -15,6 +15,9 @@ public class DoorExit : MonoBehaviour
     private AudioSource audioSource;
     private bool isPlayerNearby = false;
     private PlayerMovement playerInRange;
+    
+    // Base volume untuk door sounds
+    private const float BASE_DOOR_VOLUME = 1f;
 
     void Start()
     {
@@ -25,6 +28,21 @@ public class DoorExit : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.playOnAwake = false; // Supaya tidak bunyi sendiri pas game mulai
+        
+        // Subscribe ke SFX volume changes
+        AudioManager.OnSFXVolumeChanged += UpdateVolume;
+        UpdateVolume(AudioManager.Instance != null ? AudioManager.Instance.SFXVolume : 1f);
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.OnSFXVolumeChanged -= UpdateVolume;
+    }
+
+    private void UpdateVolume(float sfxVolume)
+    {
+        if (audioSource != null)
+            audioSource.volume = BASE_DOOR_VOLUME * sfxVolume;
     }
 
     private void Update()

@@ -44,7 +44,10 @@ public class KeyItem : MonoBehaviour
                 {
                     // Kita pakai PlayClipAtPoint karena object kuncinya langsung di-Destroy.
                     // Fungsi ini membuat "Speaker Sementara" di posisi kunci yang tetap bunyi walaupun kuncinya hilang.
-                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, soundVolume);
+                    float volume = AudioManager.Instance != null 
+                        ? AudioManager.Instance.GetScaledSFXVolume(soundVolume) 
+                        : soundVolume;
+                    AudioSource.PlayClipAtPoint(pickupSound, transform.position, volume);
                 }
 
                 // Destroy the key object

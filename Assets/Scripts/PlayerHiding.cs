@@ -31,6 +31,9 @@ public class PlayerHiding : MonoBehaviour
     // State
     private Vector3 originalPosition;
     private Vector3 tilemapHidePosition; // Posisi hide dari tilemap
+    
+    // Base volume untuk hide sounds
+    private const float BASE_HIDE_VOLUME = 1f;
 
     void Start()
     {
@@ -56,6 +59,21 @@ public class PlayerHiding : MonoBehaviour
             
         if (lanternController == null)
             Debug.LogWarning("PlayerHiding: Tidak menemukan LanternController di children!");
+        
+        // Subscribe ke SFX volume changes
+        AudioManager.OnSFXVolumeChanged += UpdateVolume;
+        UpdateVolume(AudioManager.Instance != null ? AudioManager.Instance.SFXVolume : 1f);
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.OnSFXVolumeChanged -= UpdateVolume;
+    }
+
+    private void UpdateVolume(float sfxVolume)
+    {
+        if (audioSource != null)
+            audioSource.volume = BASE_HIDE_VOLUME * sfxVolume;
     }
 
     /// <summary>

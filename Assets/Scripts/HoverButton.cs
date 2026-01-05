@@ -63,7 +63,10 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (hoverSound != null)
         {
             // PlayOneShot memungkinkan suara tumpang tindih (tidak saling memotong)
-            audioSource.PlayOneShot(hoverSound, soundVolume);
+            float volume = AudioManager.Instance != null 
+                ? AudioManager.Instance.GetScaledSFXVolume(soundVolume) 
+                : soundVolume;
+            audioSource.PlayOneShot(hoverSound, volume);
         }
     }
 
@@ -85,7 +88,10 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // --- [BARU] MAINKAN SUARA KLIK ---
         if (clickSound != null)
         {
-            audioSource.PlayOneShot(clickSound, soundVolume);
+            float volume = AudioManager.Instance != null 
+                ? AudioManager.Instance.GetScaledSFXVolume(soundVolume) 
+                : soundVolume;
+            audioSource.PlayOneShot(clickSound, volume);
         }
     }
 

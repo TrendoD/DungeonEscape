@@ -5,7 +5,11 @@ public class SettingsMenu : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject settingsWindow; // Panel utama window settings
-    [SerializeField] private Slider volumeSlider;       // Slider untuk mengatur volume
+    
+    [Header("Volume Sliders")]
+    [SerializeField] private Slider masterSlider;       // Slider untuk Master Volume
+    [SerializeField] private Slider musicSlider;        // Slider untuk Music Volume
+    [SerializeField] private Slider sfxSlider;          // Slider untuk SFX Volume
 
     void Start()
     {
@@ -13,18 +17,50 @@ public class SettingsMenu : MonoBehaviour
         if (settingsWindow != null)
             settingsWindow.SetActive(false);
 
-        // 2. Load volume yang tersimpan (Default 1.0 atau 100%)
-        float savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1.0f);
-        
-        // 3. Terapkan ke AudioListener (Global Volume)
-        AudioListener.volume = savedVolume;
+        // 2. Pastikan AudioManager sudah ada
+        EnsureAudioManager();
 
-        // 4. Update posisi slider agar sesuai dengan volume sekarang
-        if (volumeSlider != null)
+        // 3. Setup semua slider
+        SetupSliders();
+    }
+
+    /// <summary>
+    /// Memastikan AudioManager ada di scene
+    /// </summary>
+    private void EnsureAudioManager()
+    {
+        if (AudioManager.Instance == null)
         {
-            volumeSlider.value = savedVolume;
-            // Daftarkan fungsi SetVolume agar dipanggil saat slider digeser
-            volumeSlider.onValueChanged.AddListener(SetVolume);
+            // Buat AudioManager jika belum ada
+            GameObject audioManager = new GameObject("AudioManager");
+            audioManager.AddComponent<AudioManager>();
+        }
+    }
+
+    /// <summary>
+    /// Setup slider dengan nilai tersimpan dan listener
+    /// </summary>
+    private void SetupSliders()
+    {
+        // Master Volume Slider
+        if (masterSlider != null)
+        {
+            masterSlider.value = AudioManager.Instance.MasterVolume;
+            masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        }
+
+        // Music Volume Slider
+        if (musicSlider != null)
+        {
+            musicSlider.value = AudioManager.Instance.MusicVolume;
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        // SFX Volume Slider
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = AudioManager.Instance.SFXVolume;
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
         }
     }
 
@@ -32,6 +68,9 @@ public class SettingsMenu : MonoBehaviour
     public void OpenSettings()
     {
         settingsWindow.SetActive(true);
+        
+        // Refresh slider values saat membuka settings
+        RefreshSliderValues();
     }
 
     // Dipanggil oleh Tombol "Close" / "Back" di dalam Window Settings
@@ -40,16 +79,44 @@ public class SettingsMenu : MonoBehaviour
         settingsWindow.SetActive(false);
         
         // Simpan settingan saat menu ditutup
-        PlayerPrefs.Save();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SaveSettings();
     }
 
-    // Dipanggil otomatis oleh Slider
-    public void SetVolume(float value)
+    /// <summary>
+    /// Refresh nilai slider dari AudioManager
+    /// </summary>
+    private void RefreshSliderValues()
     {
-        // Mengubah volume global Unity
-        AudioListener.volume = value;
+        if (AudioManager.Instance == null) return;
+
+        if (masterSlider != null)
+            masterSlider.value = AudioManager.Instance.MasterVolume;
         
-        // Simpan nilai ke memory (PlayerPrefs)
-        PlayerPrefs.SetFloat("MasterVolume", value);
+        if (musicSlider != null)
+            musicSlider.value = AudioManager.Instance.MusicVolume;
+        
+        if (sfxSlider != null)
+            sfxSlider.value = AudioManager.Instance.SFXVolume;
+    }
+
+    // ==================== VOLUME SETTERS ====================
+
+    public void SetMasterVolume(float value)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.MasterVolume = value;
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.MusicVolume = value;
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SFXVolume = value;
     }
 }

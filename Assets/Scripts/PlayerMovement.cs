@@ -30,11 +30,25 @@ public class PlayerMovement : MonoBehaviour
         // --- SETUP AUDIO ---
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false; 
-        audioSource.volume = 0.5f; 
         
         // PENTING: Karena filenya panjang, kita set Loop jadi true
         // Agar kalau jalan lebih dari 4 detik, suaranya nyambung terus
-        audioSource.loop = true; 
+        audioSource.loop = true;
+        
+        // Subscribe ke SFX volume changes
+        AudioManager.OnSFXVolumeChanged += UpdateVolume;
+        UpdateVolume(AudioManager.Instance != null ? AudioManager.Instance.SFXVolume : 1f);
+    }
+
+    void OnDestroy()
+    {
+        AudioManager.OnSFXVolumeChanged -= UpdateVolume;
+    }
+
+    private void UpdateVolume(float sfxVolume)
+    {
+        if (audioSource != null)
+            audioSource.volume = 0.5f * sfxVolume; // Base volume 0.5
     }
 
     // --- Inventory Methods ---

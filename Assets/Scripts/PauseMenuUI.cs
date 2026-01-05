@@ -24,7 +24,9 @@ public class PauseMenuUI : MonoBehaviour
     [SerializeField] private Button backFromSettingsButton;
 
     [Header("Settings - Volume")]
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
 
     [Header("Pengaturan Scene")]
     [Tooltip("Nama scene Menu Utama. Jika kosong, akan kembali ke scene index 0")]
@@ -93,11 +95,21 @@ public class PauseMenuUI : MonoBehaviour
             if (found != null) backFromSettingsButton = found.GetComponent<Button>();
         }
 
-        // Cari Volume Slider
-        if (volumeSlider == null)
+        // Cari Volume Sliders
+        if (masterSlider == null)
         {
-            GameObject found = GameObject.Find("VolumeSlider");
-            if (found != null) volumeSlider = found.GetComponent<Slider>();
+            GameObject found = GameObject.Find("MasterSlider");
+            if (found != null) masterSlider = found.GetComponent<Slider>();
+        }
+        if (musicSlider == null)
+        {
+            GameObject found = GameObject.Find("MusicSlider");
+            if (found != null) musicSlider = found.GetComponent<Slider>();
+        }
+        if (sfxSlider == null)
+        {
+            GameObject found = GameObject.Find("SFXSlider");
+            if (found != null) sfxSlider = found.GetComponent<Slider>();
         }
     }
 
@@ -113,8 +125,23 @@ public class PauseMenuUI : MonoBehaviour
         // Setup tombol-tombol jika referensi sudah di-assign
         SetupButtons();
 
+        // Pastikan AudioManager ada
+        EnsureAudioManager();
+
         // Load volume yang tersimpan
-        SetupVolumeSlider();
+        SetupVolumeSliders();
+    }
+
+    /// <summary>
+    /// Memastikan AudioManager ada di scene
+    /// </summary>
+    void EnsureAudioManager()
+    {
+        if (AudioManager.Instance == null)
+        {
+            GameObject audioManager = new GameObject("AudioManager");
+            audioManager.AddComponent<AudioManager>();
+        }
     }
 
     void Update()
@@ -164,17 +191,27 @@ public class PauseMenuUI : MonoBehaviour
     /// <summary>
     /// Setup slider volume
     /// </summary>
-    void SetupVolumeSlider()
+    void SetupVolumeSliders()
     {
-        if (volumeSlider != null)
+        // Master Volume Slider
+        if (masterSlider != null)
         {
-            // Load volume tersimpan (default 1.0)
-            float savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1.0f);
-            volumeSlider.value = savedVolume;
-            AudioListener.volume = savedVolume;
+            masterSlider.value = AudioManager.Instance.MasterVolume;
+            masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        }
 
-            // Daftarkan listener
-            volumeSlider.onValueChanged.AddListener(SetVolume);
+        // Music Volume Slider
+        if (musicSlider != null)
+        {
+            musicSlider.value = AudioManager.Instance.MusicVolume;
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        // SFX Volume Slider
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = AudioManager.Instance.SFXVolume;
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
         }
     }
 
@@ -258,7 +295,8 @@ public class PauseMenuUI : MonoBehaviour
         }
 
         // Simpan settings
-        PlayerPrefs.Save();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SaveSettings();
     }
 
     /// <summary>
@@ -299,12 +337,30 @@ public class PauseMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Mengubah volume game
+    /// Mengubah Master Volume
     /// </summary>
-    public void SetVolume(float value)
+    public void SetMasterVolume(float value)
     {
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat("MasterVolume", value);
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.MasterVolume = value;
+    }
+
+    /// <summary>
+    /// Mengubah Music Volume
+    /// </summary>
+    public void SetMusicVolume(float value)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.MusicVolume = value;
+    }
+
+    /// <summary>
+    /// Mengubah SFX Volume
+    /// </summary>
+    public void SetSFXVolume(float value)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SFXVolume = value;
     }
 
     // ==================== PROPERTI ====================
