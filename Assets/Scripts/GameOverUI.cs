@@ -6,7 +6,7 @@ using System.Collections;
 /// <summary>
 /// Script untuk scene GameOver.
 /// Menampilkan fade out dari hitam untuk memunculkan tampilan Game Over.
-/// Juga menangani tombol Retry dan Quit.
+/// Juga menangani tombol Retry dan Quit serta Audio Game Over.
 /// </summary>
 public class GameOverUI : MonoBehaviour
 {
@@ -32,14 +32,36 @@ public class GameOverUI : MonoBehaviour
     public string mainMenuSceneName = "MainMenu";
 
     [Header("UI References (Opsional)")]
-    [Tooltip("Text untuk menampilkan alasan kalah")]
     public UnityEngine.UI.Text reasonText;
-    
-    [Tooltip("Atau gunakan TextMeshPro")]
     public TMPro.TextMeshProUGUI reasonTextTMP;
+
+    // --- [BARU] AUDIO SETTINGS ---
+    [Header("Audio Settings")]
+    [Tooltip("Masukkan suara Game Over (musik sedih / sting) disini")]
+    public AudioClip gameOverSound;
+    [Range(0f, 1f)] public float soundVolume = 1f;
+    
+    private AudioSource audioSource;
+    // -----------------------------
 
     void Start()
     {
+        // --- [BARU] SETUP AUDIO OTOMATIS ---
+        // Pasang speaker (AudioSource) jika belum ada
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+
+        // MAINKAN SUARA GAME OVER
+        if (gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound, soundVolume);
+        }
+        // -----------------------------------
+
         // Auto-find fade overlay jika belum di-assign
         if (fadeOverlay == null)
         {
@@ -107,12 +129,8 @@ public class GameOverUI : MonoBehaviour
 
     // ==================== BUTTON FUNCTIONS ====================
 
-    /// <summary>
-    /// Retry - Kembali ke scene yang sedang dimainkan sebelumnya
-    /// </summary>
     public void RetryGame()
     {
-        // Ambil nama scene terakhir yang dimainkan
         string lastScene = PlayerPrefs.GetString("LastPlayedScene", "");
 
         if (!string.IsNullOrEmpty(lastScene))
@@ -122,15 +140,11 @@ public class GameOverUI : MonoBehaviour
         }
         else
         {
-            // Fallback: jika tidak ada scene tersimpan, kembali ke MainMenu
             Debug.LogWarning("GameOverUI: LastPlayedScene tidak ditemukan, kembali ke MainMenu.");
             SceneManager.LoadScene(mainMenuSceneName);
         }
     }
 
-    /// <summary>
-    /// Quit - Kembali ke Main Menu
-    /// </summary>
     public void QuitToMainMenu()
     {
         Debug.Log("GameOverUI: Quit to Main Menu");
@@ -139,9 +153,6 @@ public class GameOverUI : MonoBehaviour
 
     // ==================== DISPLAY & FADE ====================
 
-    /// <summary>
-    /// Menampilkan alasan kalah dari PlayerPrefs
-    /// </summary>
     void DisplayGameOverReason()
     {
         string reason = PlayerPrefs.GetString("GameOverReason", "");
@@ -161,21 +172,12 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Sequence fade out untuk memunculkan tampilan GameOver
-    /// </summary>
     IEnumerator FadeOutSequence()
     {
-        // Tunggu sebentar sebelum fade out
         yield return new WaitForSeconds(delayBeforeFadeOut);
-
-        // Fade out (dari hitam ke transparan)
         yield return StartCoroutine(FadeOut());
     }
 
-    /// <summary>
-    /// Animasi fade out (dari hitam ke transparan)
-    /// </summary>
     IEnumerator FadeOut()
     {
         if (fadeOverlay == null)
@@ -194,14 +196,10 @@ public class GameOverUI : MonoBehaviour
             yield return null;
         }
 
-        // Pastikan alpha = 0 di akhir dan nonaktifkan overlay
         SetFadeAlpha(0f);
         fadeOverlay.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// Set nilai alpha pada fade overlay
-    /// </summary>
     void SetFadeAlpha(float alpha)
     {
         if (fadeOverlay != null)

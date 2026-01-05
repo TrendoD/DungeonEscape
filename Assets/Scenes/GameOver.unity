@@ -1197,6 +1197,8 @@ MonoBehaviour:
   mainMenuSceneName: MainMenu
   reasonText: {fileID: 0}
   reasonTextTMP: {fileID: 0}
+  gameOverSound: {fileID: 8300000, guid: e5e4ff922ea9c724e8f75852cc608ab8, type: 3}
+  soundVolume: 1
 --- !u!4 &2083855838
 Transform:
   m_ObjectHideFlags: 0
